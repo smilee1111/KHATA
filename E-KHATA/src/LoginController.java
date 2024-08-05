@@ -5,6 +5,12 @@
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import database.mysqlconnector;
+import database.mysqlconnector;
+import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -181,7 +187,32 @@ public class LoginController extends javax.swing.JFrame {
 
     private void loginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonFieldActionPerformed
         // TODO add your handling code here:
+        mysqlconnector mysql = new mysqlconnector();
+         String name = usernameField.getText();
+        String password = new String(passwordField.getPassword());
         
+        
+
+        try (Connection conn = mysql.openConnection()) {
+            String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setString(1, name);
+                statement.setString(2, password);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Login Successful!");
+                    new DashboardController().setVisible(true);
+                    this.dispose(); // Close login page
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+        
+
 
         
     }//GEN-LAST:event_loginButtonFieldActionPerformed
