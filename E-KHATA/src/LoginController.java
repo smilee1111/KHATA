@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
 /**
  *
  * @author Dell
@@ -178,6 +181,9 @@ public class LoginController extends javax.swing.JFrame {
 
     private void loginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonFieldActionPerformed
         // TODO add your handling code here:
+        
+
+        
     }//GEN-LAST:event_loginButtonFieldActionPerformed
 
     private void signupButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonFieldActionPerformed
@@ -234,4 +240,6 @@ public class LoginController extends javax.swing.JFrame {
     private javax.swing.JButton signupButtonField;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
+
+
 }

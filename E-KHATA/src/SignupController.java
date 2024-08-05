@@ -3,6 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import database.mysqlconnector;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author Dell
@@ -195,9 +202,33 @@ public class SignupController extends javax.swing.JFrame {
 
     private void signUpButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonFieldActionPerformed
         // TODO add your handling code here:
+         mysqlconnector mysql = new mysqlconnector();
+        String name = usernameField.getText();
+        String password =PasswordField.getText();
+        String email = emailField.getSelectedText();
+        String dob = dobField.getText();
+       
+       Connection conn = mysql.openConnection();
+        
+        String sql = "INSERT INTO signup (name, password, email,DOB) VALUES (?, ?, ?,?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, password);
+            pstmt.setString(3, email);
+            pstmt.setString(4, dob);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
+        } finally {
+            mysql.closeConnection(conn);
+        }
+        LoginController loginpage = new LoginController();
+        loginpage.setVisible(true);
         
     }//GEN-LAST:event_signUpButtonFieldActionPerformed
-
+     
+        
     private void LoginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonFieldActionPerformed
         // TODO add your handling code here:
         new LoginController().setVisible(true);
@@ -207,6 +238,11 @@ public class SignupController extends javax.swing.JFrame {
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailFieldActionPerformed
+
+
+
+
+
 
     /**
      * @param args the command line arguments
@@ -258,4 +294,6 @@ public class SignupController extends javax.swing.JFrame {
     private javax.swing.JButton signUpButtonField;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
+
+
 }
