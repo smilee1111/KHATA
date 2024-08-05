@@ -175,6 +175,7 @@ public class LoginController extends javax.swing.JFrame {
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -213,6 +214,7 @@ public class LoginController extends javax.swing.JFrame {
         }
         
 
+       
 
         
     }//GEN-LAST:event_loginButtonFieldActionPerformed
