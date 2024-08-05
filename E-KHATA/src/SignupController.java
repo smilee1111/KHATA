@@ -205,7 +205,7 @@ public class SignupController extends javax.swing.JFrame {
          mysqlconnector mysql = new mysqlconnector();
         String name = usernameField.getText();
         String password =PasswordField.getText();
-        String email = emailField.getSelectedText();
+        String email = emailField.getText();
         String dob = dobField.getText();
        
        Connection conn = mysql.openConnection();
