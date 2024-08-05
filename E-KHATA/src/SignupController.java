@@ -3,6 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import database.mysqlconnector;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Date;
+
 /**
  *
  * @author Dell
@@ -26,8 +34,7 @@ public class SignupController extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        PasswordField = new javax.swing.JTextField();
-        dobField = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         usernameField = new javax.swing.JTextField();
         signUpButtonField = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -36,24 +43,18 @@ public class SignupController extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        emailField = new javax.swing.JPasswordField();
+        passwordField = new javax.swing.JPasswordField();
+        dobField = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(140, 82, 255));
 
-        PasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+        emailField.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
-            }
-        });
-
-        dobField.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        dobField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dobFieldActionPerformed(evt);
+                emailFieldActionPerformed(evt);
             }
         });
 
@@ -98,9 +99,9 @@ public class SignupController extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel7.setText("D. O. B");
 
-        emailField.addActionListener(new java.awt.event.ActionListener() {
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailFieldActionPerformed(evt);
+                passwordFieldActionPerformed(evt);
             }
         });
 
@@ -109,28 +110,30 @@ public class SignupController extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 89, Short.MAX_VALUE)
-                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(212, 212, 212))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(89, 89, 89)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LoginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(signUpButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(signUpButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(LoginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(185, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,18 +144,21 @@ public class SignupController extends javax.swing.JFrame {
                 .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(signUpButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(signUpButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,13 +187,9 @@ public class SignupController extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
-
-    private void dobFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dobFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dobFieldActionPerformed
+    }//GEN-LAST:event_emailFieldActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
@@ -196,17 +198,85 @@ public class SignupController extends javax.swing.JFrame {
     private void signUpButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonFieldActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_signUpButtonFieldActionPerformed
+        
+        mysqlconnector mysql = new mysqlconnector();
+        String name = usernameField.getText();
+        String password =passwordField.getText();
+        String email = emailField.getText();
+        Date dob = dobField.getDate();
+       
+       Connection conn = mysql.openConnection();
+       for(int i=0;i<name.length();i++){
+        if(Character.isDigit(name.charAt(i))== true || Character.isLetter(name.charAt(i))== true && name.length()<20 ){
+           if(isvalid(password)==true && password.length()>=8){
+                if(email.contains("@gmail.com") && email.isBlank()==false && (email.length()>=15 && email.length()<=30 )){
+                 String sql = "INSERT INTO signup (name, password, email,DOB) VALUES (?, ?, ?,?)";
+               try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                   pstmt.setString(1, name);
+                   pstmt.setString(2, password);
+                   pstmt.setString(3, email);
+                   pstmt.setDate(4, (java.sql.Date) dob);
+                   pstmt.executeUpdate();
+               } catch (SQLException ex) {
+                   //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+                   System.out.println(ex.getMessage());
+               } finally {
+                   mysql.closeConnection(conn);
+               }
+                JOptionPane.showMessageDialog(this,"You have created your bank account successfully.");
+                LoginController loginpage = new LoginController();
+                loginpage.setVisible(true);
+                this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this,"please enter a valid email");
+                    emailField.setText("");
+                    emailField.requestFocus();
+                    }
+           } else {   
+              JOptionPane.showMessageDialog(this,"please enter a valid password with special characters, digits and length>8");
+               passwordField.setText("");
+               passwordField.requestFocus();
+           } 
+        }else{
+              JOptionPane.showMessageDialog(this,"please enter username with letters and numbers only and length<20");
+               usernameField.setText("");
+               emailField.requestFocus();
+}
 
+        }
+    }//GEN-LAST:event_signUpButtonFieldActionPerformed
+      public static boolean isvalid(String password) {
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+
+        for (int i = 0; i < password.length(); i++) {
+            char c = password.charAt(i);
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecialChar = true;
+            }
+        }
+        return hasSpecialChar && hasDigit;
+
+      }
     private void LoginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonFieldActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        this.dispose();
         new LoginController().setVisible(true);
+        
+        
         
     }//GEN-LAST:event_LoginButtonFieldActionPerformed
 
-    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailFieldActionPerformed
+    }//GEN-LAST:event_passwordFieldActionPerformed
+
+
+
+
+
 
     /**
      * @param args the command line arguments
@@ -245,9 +315,8 @@ public class SignupController extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LoginButtonField;
-    private javax.swing.JTextField PasswordField;
-    private javax.swing.JTextField dobField;
-    private javax.swing.JPasswordField emailField;
+    private com.toedter.calendar.JDateChooser dobField;
+    private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -255,7 +324,10 @@ public class SignupController extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton signUpButtonField;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
+
+
 }
