@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -44,6 +46,7 @@ public class SignupController extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
+        dobField = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -122,7 +125,9 @@ public class SignupController extends javax.swing.JFrame {
                                 .addComponent(LoginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(emailField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(185, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -150,7 +155,9 @@ public class SignupController extends javax.swing.JFrame {
                         .addComponent(signUpButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jLabel7)))
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,6 +197,7 @@ public class SignupController extends javax.swing.JFrame {
     private void signUpButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonFieldActionPerformed
         // TODO add your handling code here:
         
+       
         
         mysqlconnector mysql = new mysqlconnector();
         String name = usernameField.getText();
@@ -208,7 +216,7 @@ public class SignupController extends javax.swing.JFrame {
                    pstmt.setString(1, name);
                    pstmt.setString(2, password);
                    pstmt.setString(3, email);
-                   pstmt.setDate(4, (java.sql.Date) dob);
+                   pstmt.setDate(4,new java.sql.Date(dob.getTime()));
                    pstmt.executeUpdate();
                } catch (SQLException ex) {
                    //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -308,6 +316,7 @@ public class SignupController extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LoginButtonField;
+    private com.toedter.calendar.JDateChooser dobField;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
