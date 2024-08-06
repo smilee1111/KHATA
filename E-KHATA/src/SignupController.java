@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author Dell
  */
-public class SignupController extends javax.swing.JFrame {
+    public class SignupController extends javax.swing.JFrame {
 
     /**
      * Creates new form SignupController
@@ -205,28 +205,33 @@ public class SignupController extends javax.swing.JFrame {
         String email = emailField.getText();
         Date dob = dobField.getDate();
        
-       Connection conn = mysql.openConnection();
-       for(int i=0;i<name.length();i++){
-        if(Character.isDigit(name.charAt(i))== true || Character.isLetter(name.charAt(i))== true && name.length()<20 ){
+//       Connection conn = mysql.openConnection();
+        if(isvalidUsername(name)== true ){
            if(isvalid(password)==true && password.length()>=8){
                 if(email.contains("@gmail.com") && email.isBlank()==false && (email.length()>=15 && email.length()<=30 )){
-                 String sql = "INSERT INTO signup (name, password, email,DOB) VALUES (?, ?, ?,?)";
-               try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                   pstmt.setString(1, name);
-                   pstmt.setString(2, password);
-                   pstmt.setString(3, email);
-                   pstmt.setDate(4, (java.sql.Date) dob);
-                   pstmt.executeUpdate();
-               } catch (SQLException ex) {
-                   //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
-                   System.out.println(ex.getMessage());
-               } finally {
-                   mysql.closeConnection(conn);
-               }
+                    if(dob != null){
+//                String sql = "INSERT INTO signup (name, password, email,DOB) VALUES (?, ?, ?,?)";
+//               try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//                   pstmt.setString(1, name);
+//                   pstmt.setString(2, password);
+//                   pstmt.setString(3, email);
+//                   pstmt.setDate(4, (java.sql.Date) dob);
+//                   pstmt.executeUpdate();
+//               } catch (SQLException ex) {
+//                   //            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+//                   System.out.println(ex.getMessage());
+//               } finally {
+//                   mysql.closeConnection(conn);
+//               }
                 JOptionPane.showMessageDialog(this,"You have created your bank account successfully.");
                 LoginController loginpage = new LoginController();
                 loginpage.setVisible(true);
                 this.dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(this,"please enter your date of birth");
+                        dobField.setDate(null);
+                        dobField.requestFocus();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(this,"please enter a valid email");
                     emailField.setText("");
@@ -243,7 +248,7 @@ public class SignupController extends javax.swing.JFrame {
                emailField.requestFocus();
 }
 
-        }
+        
     }//GEN-LAST:event_signUpButtonFieldActionPerformed
       public static boolean isvalid(String password) {
         boolean hasDigit = false;
@@ -260,6 +265,21 @@ public class SignupController extends javax.swing.JFrame {
         return hasSpecialChar && hasDigit;
 
       }
+      
+    public static boolean isvalidUsername(String name) {
+    boolean isValid = true;
+    if (name.length() > 20) {
+        isValid = false;
+    }
+    for (int i = 0; i < name.length(); i++) {
+        char c = name.charAt(i);
+        if (!Character.isLetterOrDigit(c)) {
+            isValid = false;
+            break;
+        }
+    }
+    return isValid;
+}
     private void LoginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonFieldActionPerformed
         // TODO add your handling code here
         this.dispose();
@@ -329,5 +349,6 @@ public class SignupController extends javax.swing.JFrame {
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 
+  
 
 }
