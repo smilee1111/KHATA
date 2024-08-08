@@ -37,7 +37,7 @@ public class LoginController extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        showPasswordCheckField = new javax.swing.JCheckBox();
         loginButtonField = new javax.swing.JButton();
         signupButtonField = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -64,11 +64,11 @@ public class LoginController extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jCheckBox1.setText("Show Password");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        showPasswordCheckField.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        showPasswordCheckField.setText("Show Password");
+        showPasswordCheckField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                showPasswordCheckFieldActionPerformed(evt);
             }
         });
 
@@ -110,7 +110,7 @@ public class LoginController extends javax.swing.JFrame {
                         .addGap(89, 89, 89)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(showPasswordCheckField, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -136,7 +136,7 @@ public class LoginController extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jCheckBox1)
+                .addComponent(showPasswordCheckField)
                 .addGap(34, 34, 34)
                 .addComponent(loginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -182,9 +182,15 @@ public class LoginController extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void showPasswordCheckFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCheckFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+        if(showPasswordCheckField.isSelected()){
+            passwordField.setEchoChar((char)0);
+        }else{
+            passwordField.setEchoChar('*');
+        }
+        
+    }//GEN-LAST:event_showPasswordCheckFieldActionPerformed
 
     private void loginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonFieldActionPerformed
         // TODO add your handling code here:
@@ -262,7 +268,6 @@ public class LoginController extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -270,6 +275,7 @@ public class LoginController extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginButtonField;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JCheckBox showPasswordCheckField;
     private javax.swing.JButton signupButtonField;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
