@@ -31,7 +31,6 @@
               <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <EmptySpace min="0" pref="1396" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -185,6 +184,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="withdrawButtonFieldActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="transerButtonField">
           <Properties>
@@ -202,6 +204,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="transerButtonFieldActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="historyButtonField">
           <Properties>

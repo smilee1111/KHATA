@@ -67,12 +67,22 @@ public class DashboardController extends javax.swing.JFrame {
         withdrawButtonField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/withdraw.png"))); // NOI18N
         withdrawButtonField.setText("Withdraw");
         withdrawButtonField.setBorder(null);
+        withdrawButtonField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawButtonFieldActionPerformed(evt);
+            }
+        });
 
         transerButtonField.setBackground(new java.awt.Color(153, 153, 255));
         transerButtonField.setFont(new java.awt.Font("Lucida Sans", 2, 14)); // NOI18N
         transerButtonField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/transfermoney.png"))); // NOI18N
         transerButtonField.setText("Transer Money");
         transerButtonField.setBorder(null);
+        transerButtonField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transerButtonFieldActionPerformed(evt);
+            }
+        });
 
         historyButtonField.setBackground(new java.awt.Color(153, 153, 255));
         historyButtonField.setFont(new java.awt.Font("Lucida Sans", 2, 14)); // NOI18N
@@ -173,7 +183,6 @@ public class DashboardController extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGap(0, 1396, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,23 +196,43 @@ public class DashboardController extends javax.swing.JFrame {
 
     private void myinfoButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myinfoButtonFieldActionPerformed
         // TODO add your handling code here:
+        new InformationController().setVisible(true);
     }//GEN-LAST:event_myinfoButtonFieldActionPerformed
 
     private void detailsButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonFieldActionPerformed
         // TODO add your handling code here:
+        new DetailsController().setVisible(true);
     }//GEN-LAST:event_detailsButtonFieldActionPerformed
 
     private void depositButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositButtonFieldActionPerformed
         // TODO add your handling code here:
+        new DepositController().setVisible(true);
     }//GEN-LAST:event_depositButtonFieldActionPerformed
 
     private void historyButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonFieldActionPerformed
         // TODO add your handling code here:
+        new HistoryController().setVisible(true);
+        
     }//GEN-LAST:event_historyButtonFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        new LoginController().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void withdrawButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawButtonFieldActionPerformed
+        // TODO add your handling code here:
+        new WithDrawlController().setVisible(true);
+        
+        
+    }//GEN-LAST:event_withdrawButtonFieldActionPerformed
+
+    private void transerButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transerButtonFieldActionPerformed
+        // TODO add your handling code here:
+        new TansferController().setVisible(true);
+        
+    }//GEN-LAST:event_transerButtonFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +281,5 @@ public class DashboardController extends javax.swing.JFrame {
     private javax.swing.JButton withdrawButtonField;
     // End of variables declaration//GEN-END:variables
 
-    void setVisible(String atrue) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 }
