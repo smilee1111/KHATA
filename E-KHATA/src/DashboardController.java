@@ -211,7 +211,7 @@ public class DashboardController extends javax.swing.JFrame {
 
     private void historyButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonFieldActionPerformed
         // TODO add your handling code here:
-        new HistoryController().setVisible(true);
+        
         
     }//GEN-LAST:event_historyButtonFieldActionPerformed
 
