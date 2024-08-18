@@ -7,15 +7,20 @@ import database.mysqlconnector;
 import Dao.Userdao;
 
 import Model.Deposit;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 //import com.mysql.cj.protocol.Resultset;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 /**
  *
  * @author Dell
@@ -25,47 +30,72 @@ public class DetailsController extends javax.swing.JFrame {
     /**
      * Creates new form DetailsController
      */
+    private JTree infoTree;
     public DetailsController() {
-        initComponents();
-    loadTableData();
-    jTable1.setModel(new javax.swing.table.DefaultTableModel(
-    new Object[][] {
+        
 
-    },
-    new String[] {
-        "Amount", "Date of Deposit", "Date of Withdrawal", "Method"
-    }
-) {
-    Class[] types = new Class[] {
-        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-    };
+         JFrame frame = new JFrame("Tree View Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
 
-    public Class getColumnClass(int columnIndex) {
-        return types[columnIndex];
-    }
-});
-}
+        infoTree = new JTree();
+        JScrollPane treeView = new JScrollPane(infoTree);
+        frame.add(treeView);
+
+        frame.setVisible(true);
+        loadTableData();
+   }
+
 private void loadTableData() {
-    try {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Clear the table before adding new data
+Connection conn = null;
+        try {
+            String CS = "jdbc:mysql://localhost:3306/khata"; // Replace with your DB URL
+            String user = "root"; // Replace with your DB username
+            String password = "plmokn@12"; // Replace with your DB password
+            conn = DriverManager.getConnection(CS, user, password);
+            String prepSqlStatement = "SELECT * FROM deposit"; // Adjust as needed
 
-        List<Deposit> data = new Userdao().getAllUserData();
+            PreparedStatement stat = conn.prepareStatement(prepSqlStatement);
+            ResultSet rs = stat.executeQuery();
 
-        for (Deposit deposit : data) {
-            model.addRow(new Object[]{
-                deposit.getAmount(),
-                deposit.getDate_of_Deposit(),
-                deposit.getDate_of_withdrawal(),
-                deposit.getmethod()
-            });
+            // Create the root node
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode("deposit");
+            DefaultTreeModel treeModel = new DefaultTreeModel(root);
+
+            while (rs.next()) {
+                
+                String amount = rs.getString("amount");
+                String dateOfDeposit = rs.getString("date_of_deposit");
+                String dateOfWithdrawal = rs.getString("date_of_withdrawal");
+                String method = rs.getString("method");
+
+                // Create a node for the album and its details
+                DefaultMutableTreeNode albumNode = new DefaultMutableTreeNode(folderName);
+                root.add(albumNode);
+
+                // Add details as child nodes
+                albumNode.add(new DefaultMutableTreeNode("Amount: " + amount));
+                albumNode.add(new DefaultMutableTreeNode("Date of Deposit: " + dateOfDeposit));
+                albumNode.add(new DefaultMutableTreeNode("Date of Withdrawal: " + dateOfWithdrawal));
+                albumNode.add(new DefaultMutableTreeNode("Method: " + method));
+            }
+
+            infoTree.setModel(treeModel);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                
+            System.out.println(e);
+            }
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error fetching data from the database: " + e.getMessage());
     }
-}
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(LoadTableData::new);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -73,9 +103,6 @@ private void loadTableData() {
 
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,31 +112,6 @@ private void loadTableData() {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Amount", "Date_of_Deposit", "Date_of_withdrawl", "Method"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,10 +124,7 @@ private void loadTableData() {
                         .addComponent(jButton1)
                         .addContainerGap(762, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
@@ -133,17 +132,9 @@ private void loadTableData() {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 331, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(401, 439, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,10 +145,6 @@ private void loadTableData() {
         new DashboardController().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,9 +183,6 @@ private void loadTableData() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

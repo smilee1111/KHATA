@@ -43,7 +43,7 @@ public class LoginController extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        userCombobox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,10 +101,10 @@ public class LoginController extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel4.setText("Username");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "User" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        userCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "User" }));
+        userCombobox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                userComboboxActionPerformed(evt);
             }
         });
 
@@ -122,7 +122,7 @@ public class LoginController extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(userCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(signupButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,7 +147,7 @@ public class LoginController extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(showPasswordCheckField)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(loginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -208,22 +208,39 @@ public class LoginController extends javax.swing.JFrame {
         mysqlconnector mysql = new mysqlconnector();
          String name = usernameField.getText();
         String password = new String(passwordField.getPassword());
-        
-        
+       
+      
 
         try (Connection conn = mysql.openConnection()) {
             String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
             try (PreparedStatement statement = conn.prepareStatement(query)) {
                 statement.setString(1, name);
                 statement.setString(2, password);
-                ResultSet resultSet =  statement.executeQuery();
-                if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Login Successful!");
-                    new DashboardController().setVisible(true);
-                    this.dispose(); // Close login page
-                } else {
-                    JOptionPane.showMessageDialog(this, "Invalid username or password.");
-                }
+                ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                    String userRole = (String) userCombobox.getSelectedItem();
+
+                    switch (userRole) {
+                        case "Customer":
+                             JOptionPane.showMessageDialog(this, "Login Successful!");
+                            // Open the customer interface
+                            DashboardController customerInterface = new DashboardController();
+                            customerInterface.setVisible(true);
+                            dispose();
+                            break;
+                        case "Admin":
+                            // Open the admin interface
+                             JOptionPane.showMessageDialog(this, "Login Successful!");
+                            AdminController adminInterface = new AdminController();
+                            adminInterface.setVisible(true);
+                            dispose();
+                            break;
+                        default:
+                            // Handle invalid/unknown user role
+                            JOptionPane.showMessageDialog(this, "Invalid user role");
+                            break;
+                    }
+            }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -241,11 +258,11 @@ public class LoginController extends javax.swing.JFrame {
         new SignupController().setVisible(true);
     }//GEN-LAST:event_signupButtonFieldActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void userComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userComboboxActionPerformed
         // TODO add your handling code here:
         
         
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_userComboboxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,7 +302,6 @@ public class LoginController extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -295,6 +311,7 @@ public class LoginController extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JCheckBox showPasswordCheckField;
     private javax.swing.JButton signupButtonField;
+    private javax.swing.JComboBox<String> userCombobox;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 

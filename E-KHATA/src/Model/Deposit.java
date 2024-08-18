@@ -9,50 +9,43 @@ package Model;
  * @author Aayush Subedi
  */
 public class Deposit {
+    private String Id;
     private String Amount;
-    private String Date_of_withdrawal;
-    private String Date_of_Deposit;
-    private String method;
+    private String Name;
+    private String Method;
   
     public Deposit(String Amount, String Date_of_withdrawal, String Date_of_Deposit, String method){
-        this.Amount = Amount;
-        this.Date_of_withdrawal = Date_of_withdrawal;
-        this.Date_of_Deposit = Date_of_Deposit;
-        this.method = method;
+        this.Id = Amount;
+        this.Amount = Date_of_withdrawal;
+        this.Name = Date_of_Deposit;
+        this.Method = method;
         
        
     }
-    public String getAmount() {
+    public String getId() {
+        return Id;
+    }
+public void setId(String Id) {
+        this.Id= Id;
+    }
+
+public String getAmount() {
         return Amount;
     }
-public void setAmount(String Amount) {
+public void setDAmount(String Amount) {
         this.Amount = Amount;
     }
 
-public String getDate_of_withdrawl() {
-        return Date_of_withdrawal;
+public String getName() {
+        return Name;
     }
-public void setDate_of_withdrawal(String Date_of_withdrawal) {
-        this.Date_of_withdrawal = Date_of_withdrawal;
-    }
-
-public String getDate_of_Deposit() {
-        return Date_of_Deposit;
-    }
-public void setDate_of_Deposit(String Date_of_Deposit) {
-        this.Date_of_Deposit = Date_of_Deposit;
+public void setName(String Name) {
+        this.Name = Name;
     }
 
-public String getmethod() {
-        return method;
+public String getMethod() {
+        return Method;
     }
-public void setmethod(String method) {
-        this.method = method;
-    }
-
-    public Object getDate_of_withdrawal() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-}
+public void setMethod(String Method) {
+        this.Method = Method;
+    }}

@@ -158,7 +158,7 @@ public class WithDrawlController extends javax.swing.JFrame {
             pstmt.setBigDecimal(1, new java.math.BigDecimal(amount)); // Set amount
             pstmt.setString(2, method); // Set method
             pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
-
+            
             // Execute the query
             pstmt.executeUpdate();
 

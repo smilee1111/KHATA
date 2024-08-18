@@ -16,13 +16,13 @@ public class controller {
     void makeUserTable() {
         System.out.println("Making table");
         DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Id");
         model.addColumn("Amount");
-        model.addColumn("Date_of_withdrawl");
-        model.addColumn("Date_of_Deposit");
-        model.addColumn("method");
+        model.addColumn("Name");
+        model.addColumn("Method");
         ArrayList<Deposit> data = new Userdao().getAllUserData();
         for (Deposit user : data) {
-            model.addRow(new Object[]{user.getAmount(), user.getDate_of_withdrawl(), user.getDate_of_Deposit(), user.getmethod()});
+            model.addRow(new Object[]{user.getId(), user.getAmount(), user.getName(), user.getMethod()});
         }
     }
 }

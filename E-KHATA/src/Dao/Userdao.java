@@ -19,17 +19,17 @@ public class Userdao {
        public ArrayList<Deposit> getAllUserData(){
         Connection conn = mysql.openConnection();
         ArrayList<Deposit> data = new ArrayList();
-        String sqlQuery = "SELECT * FROM details";
+        String sqlQuery = "SELECT * FROM Admins";
         try (PreparedStatement pstmt = conn.prepareStatement(sqlQuery))  {
             ResultSet result = pstmt.executeQuery();
             while(result.next()){
                 Deposit user  = new Deposit(
+                    result.getString("Id"),
                     result.getString("Amount"),
-                    result.getString("Date_of_withdrawl"),
-                    result.getString("Date_of_Deposit"),
-                    result.getString("method")
+                    result.getString("Name"),
+                    result.getString("Method")
                 );
-                user.setAmount(result.getString("Amount"));
+                user.setId(result.getString("ID"));
 
                 data.add(user);
 
@@ -43,19 +43,6 @@ public class Userdao {
         return data;
     }
 
-    private static class mysql {
-
-        private static void closeConnection(Connection conn) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        private static Connection openConnection() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
-
-        public mysql() {
-        }
-    }
     
     
 }

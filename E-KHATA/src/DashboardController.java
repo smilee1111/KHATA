@@ -30,7 +30,6 @@ public class DashboardController extends javax.swing.JFrame {
         depositButtonField = new javax.swing.JButton();
         withdrawButtonField = new javax.swing.JButton();
         transerButtonField = new javax.swing.JButton();
-        historyButtonField = new javax.swing.JButton();
         myinfoButtonField = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -84,17 +83,6 @@ public class DashboardController extends javax.swing.JFrame {
             }
         });
 
-        historyButtonField.setBackground(new java.awt.Color(153, 153, 255));
-        historyButtonField.setFont(new java.awt.Font("Lucida Sans", 2, 14)); // NOI18N
-        historyButtonField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/transactionhistory.png"))); // NOI18N
-        historyButtonField.setText("History");
-        historyButtonField.setBorder(null);
-        historyButtonField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                historyButtonFieldActionPerformed(evt);
-            }
-        });
-
         myinfoButtonField.setBackground(new java.awt.Color(153, 153, 255));
         myinfoButtonField.setFont(new java.awt.Font("Lucida Sans", 2, 14)); // NOI18N
         myinfoButtonField.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myinfo.png"))); // NOI18N
@@ -129,11 +117,7 @@ public class DashboardController extends javax.swing.JFrame {
                             .addComponent(transerButtonField)
                             .addComponent(detailsButtonField))
                         .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(historyButtonField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(depositButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(depositButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(90, 90, 90)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(withdrawButtonField, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
@@ -164,9 +148,7 @@ public class DashboardController extends javax.swing.JFrame {
                                     .addComponent(withdrawButtonField)
                                     .addComponent(detailsButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(historyButtonField)
-                            .addComponent(myinfoButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(myinfoButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(transerButtonField)))
@@ -208,12 +190,6 @@ public class DashboardController extends javax.swing.JFrame {
         // TODO add your handling code here:
         new DepositController().setVisible(true);
     }//GEN-LAST:event_depositButtonFieldActionPerformed
-
-    private void historyButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonFieldActionPerformed
-        // TODO add your handling code here:
-        new HistoryController().setVisible(true);
-        
-    }//GEN-LAST:event_historyButtonFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -272,7 +248,6 @@ public class DashboardController extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton depositButtonField;
     private javax.swing.JButton detailsButtonField;
-    private javax.swing.JButton historyButtonField;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
