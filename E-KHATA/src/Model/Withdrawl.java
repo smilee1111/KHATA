@@ -6,26 +6,26 @@ package Model;
 
 /**
  *
- * @author Aayush Subedi
+ * @author Dell
  */
-public class Deposit {
-    private String Id;
+public class Withdrawl {
+    private int Id;
     private String Amount;
     private String Name;
     private String Method;
   
-    public Deposit(String Amount, String Date_of_withdrawal, String Date_of_Deposit, String method){
-        this.Id = Amount;
-        this.Amount = Date_of_withdrawal;
-        this.Name = Date_of_Deposit;
+    public Withdrawl(int id, String amount, String name, String method){
+        this.Id = id;
+        this.Amount = amount;
+        this.Name = name;
         this.Method = method;
         
        
     }
-    public String getId() {
+    public int getId() {
         return Id;
     }
-public void setId(String Id) {
+public void setId(int Id) {
         this.Id= Id;
     }
 
@@ -48,4 +48,5 @@ public String getMethod() {
     }
 public void setMethod(String Method) {
         this.Method = Method;
-    }}
+    }
+}
