@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.text.DateFormat;
 
-
 public class WithDrawlController extends javax.swing.JFrame {
 
     /**
@@ -157,7 +156,6 @@ public class WithDrawlController extends javax.swing.JFrame {
     }//GEN-LAST:event_methodFieldActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
        // Get the input values from the fields
     String amount = amountField.getText();
     String method = methodField.getText();
@@ -167,22 +165,38 @@ public class WithDrawlController extends javax.swing.JFrame {
     mysqlconnector mysql = new mysqlconnector();
 
     try (Connection conn = mysql.openConnection()) {
-        // Prepare the SQL query, skipping user_id if not needed
-        String sql = "INSERT INTO withdrawl (amount, method, date_of_withdrawal) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setBigDecimal(1, new java.math.BigDecimal(amount)); // Set amount
-            pstmt.setString(2, method); // Set method
-            pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
-            
-            // Execute the query
-            pstmt.executeUpdate();
+        // Calculate the total deposited amount
+        String depositQuery = "SELECT SUM(amount) AS total_deposit FROM deposit";
+        java.sql.Statement stmt = conn.createStatement();
+        java.sql.ResultSet rs = stmt.executeQuery(depositQuery);
+        rs.next(); // Move to the first result
+        java.math.BigDecimal totalDeposit = rs.getBigDecimal("total_deposit");
 
-            // Show a success message
-            JOptionPane.showMessageDialog(this, "Withdrawal record inserted successfully!");
+        // Convert the withdrawal amount to BigDecimal
+        java.math.BigDecimal withdrawalAmount = new java.math.BigDecimal(amount);
+
+        // Check if the withdrawal amount exceeds the total deposit
+        if (withdrawalAmount.compareTo(totalDeposit) > 0) {
+            // If withdrawal amount is greater, show an insufficient balance message
+            JOptionPane.showMessageDialog(this, "Insufficient balance!");
+        } else {
+            // Proceed with the withdrawal if the balance is sufficient
+            String sql = "INSERT INTO withdrawl (amount, method, date_of_withdrawal) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setBigDecimal(1, withdrawalAmount); // Set amount
+                pstmt.setString(2, method); // Set method
+                pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
+                
+                // Execute the query
+                pstmt.executeUpdate();
+
+                // Show a success message
+                JOptionPane.showMessageDialog(this, "Withdrawal record inserted successfully!");
+            }
         }
     } catch (SQLException ex) {
         ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error inserting record: " + ex.getMessage());
+        JOptionPane.showMessageDialog(this, "Error processing withdrawal: " + ex.getMessage());
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 

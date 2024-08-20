@@ -19,7 +19,7 @@ public class mysqlconnector implements database {
     public Connection openConnection() { 
         try{
             String username = "root";
-            String password = "musk@n2020#";
+            String password = "plmokn@12";
             String database = "Khata";
             Connection connection;
             connection = DriverManager.getConnection(
@@ -36,8 +36,8 @@ public class mysqlconnector implements database {
             return null;
         }
     }
-
-    @Override
+ 
+   @Override
     public void closeConnection(Connection conn) {
         try{
             if(conn !=null && !conn.isClosed()){

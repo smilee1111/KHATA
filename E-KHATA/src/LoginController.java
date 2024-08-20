@@ -204,48 +204,63 @@ public class LoginController extends javax.swing.JFrame {
     }//GEN-LAST:event_showPasswordCheckFieldActionPerformed
 
     private void loginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonFieldActionPerformed
-        // TODO add your handling code here:
-        mysqlconnector mysql = new mysqlconnector();
-         String name = usernameField.getText();
-        String password = new String(passwordField.getPassword());
-       
-      
+                                                
+    // Retrieve the entered username and password
+    String name = usernameField.getText();
+    String password = new String(passwordField.getPassword());
+    String userRole = (String) userCombobox.getSelectedItem();
 
-        try (Connection conn = mysql.openConnection()) {
-            String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
-            try (PreparedStatement statement = conn.prepareStatement(query)) {
-                statement.setString(1, name);
-                statement.setString(2, password);
-                ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                    String userRole = (String) userCombobox.getSelectedItem();
-
-                    switch (userRole) {
-                        case "User":
-                             JOptionPane.showMessageDialog(this, "Login Successful!");
-                            // Open the customer interface
-                            DashboardController customerInterface = new DashboardController();
-                            customerInterface.setVisible(true);
-                            dispose();
-                            break;
-                        case "admin":
-                            // Open the admin interface
-                             JOptionPane.showMessageDialog(this, "Login Successful!");
-                            AdminController adminInterface = new AdminController();
-                            adminInterface.setVisible(true);
-                            dispose();
-                            break;
-                        default:
-                            // Handle invalid/unknown user role
-                            JOptionPane.showMessageDialog(this, "Invalid user role");
-                            break;
-                    }
-            }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    // Check if the username and password match the hardcoded admin credentials
+    if ("admin".equalsIgnoreCase(name) && "Admin@12".equals(password)) {
+        if ("admin".equalsIgnoreCase(userRole)) {
+            JOptionPane.showMessageDialog(this, "Admin Login Successful!");
+            AdminController adminInterface = new AdminController();
+            adminInterface.setVisible(true);
+            dispose();
+            return; // Exit the method to prevent further checks
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid user role for admin credentials");
+            return; // Exit the method to prevent further checks
         }
+    }
+    
+    // If admin credentials don't match, proceed with database check
+    mysqlconnector mysql = new mysqlconnector();
+    try (Connection conn = mysql.openConnection()) {
+        String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, name);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                switch (userRole) {
+                    case "User":
+                        JOptionPane.showMessageDialog(this, "Login Successful!");
+                        DashboardController customerInterface = new DashboardController();
+                        customerInterface.setVisible(true);
+                        dispose();
+                        break;
+                    case "admin":
+                        JOptionPane.showMessageDialog(this, "Login Successful!");
+                        AdminController adminInterface = new AdminController();
+                        adminInterface.setVisible(true);
+                        dispose();
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(this, "Invalid user role");
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password");
+            }
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+
+
+
         
 
        

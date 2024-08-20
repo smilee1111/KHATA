@@ -30,7 +30,7 @@ public DetailsController() {
 
         try {
             // Connect to the database
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Khata", "root", "musk@n2020#"); 
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Khata", "root", "plmokn@12"); 
             
             // SQL query to fetch data from the details table
             String query = "SELECT amount, date_of_transaction, method FROM details";
