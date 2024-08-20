@@ -43,7 +43,7 @@ public class LoginController extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        userCombobox = new javax.swing.JComboBox<>();
+        adminButtonField = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,10 +101,12 @@ public class LoginController extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel4.setText("Username");
 
-        userCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "User" }));
-        userCombobox.addActionListener(new java.awt.event.ActionListener() {
+        adminButtonField.setBackground(new java.awt.Color(153, 153, 255));
+        adminButtonField.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        adminButtonField.setText("Admin");
+        adminButtonField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userComboboxActionPerformed(evt);
+                adminButtonFieldActionPerformed(evt);
             }
         });
 
@@ -122,7 +124,7 @@ public class LoginController extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(userCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(adminButtonField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(signupButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,8 +149,8 @@ public class LoginController extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(showPasswordCheckField)
                 .addGap(18, 18, 18)
-                .addComponent(userCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addComponent(adminButtonField)
+                .addGap(39, 39, 39)
                 .addComponent(loginButtonField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -205,48 +207,34 @@ public class LoginController extends javax.swing.JFrame {
 
     private void loginButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonFieldActionPerformed
         // TODO add your handling code here:
+        
+        
         mysqlconnector mysql = new mysqlconnector();
          String name = usernameField.getText();
         String password = new String(passwordField.getPassword());
        
       
 
+     
         try (Connection conn = mysql.openConnection()) {
             String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
             try (PreparedStatement statement = conn.prepareStatement(query)) {
                 statement.setString(1, name);
                 statement.setString(2, password);
                 ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                    String userRole = (String) userCombobox.getSelectedItem();
-
-                    switch (userRole) {
-                        case "User":
-                             JOptionPane.showMessageDialog(this, "Login Successful!");
-                            // Open the customer interface
-                            DashboardController customerInterface = new DashboardController();
-                            customerInterface.setVisible(true);
-                            dispose();
-                            break;
-                        case "admin":
-                            // Open the admin interface
-                             JOptionPane.showMessageDialog(this, "Login Successful!");
-                            AdminController adminInterface = new AdminController();
-                            adminInterface.setVisible(true);
-                            dispose();
-                            break;
-                        default:
-                            // Handle invalid/unknown user role
-                            JOptionPane.showMessageDialog(this, "Invalid user role");
-                            break;
-                    }
-            }
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Login Successful!");
+                    new DashboardController().setVisible(true);
+                    this.dispose(); // Close login page
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
-        
+
 
        
 
@@ -258,11 +246,17 @@ public class LoginController extends javax.swing.JFrame {
         new SignupController().setVisible(true);
     }//GEN-LAST:event_signupButtonFieldActionPerformed
 
-    private void userComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userComboboxActionPerformed
+    private void adminButtonFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonFieldActionPerformed
         // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_userComboboxActionPerformed
+          if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin123")) {
+                            // Open the admin interface
+                            JOptionPane.showMessageDialog(this, "Login Successful!");
+                            AdminController adminInterface = new AdminController();
+                            adminInterface.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "invalid details for admin!");
+                        }
+    }//GEN-LAST:event_adminButtonFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,6 +296,7 @@ public class LoginController extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adminButtonField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -311,7 +306,6 @@ public class LoginController extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JCheckBox showPasswordCheckField;
     private javax.swing.JButton signupButtonField;
-    private javax.swing.JComboBox<String> userCombobox;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 

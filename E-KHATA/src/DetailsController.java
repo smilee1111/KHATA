@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import Dao.Userdao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public DetailsController() {
         try {
             // Connect to the database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Khata", "root", "musk@n2020#"); 
-            
+
             // SQL query to fetch data from the details table
             String query = "SELECT amount, date_of_transaction, method FROM details";
             PreparedStatement pst = con.prepareStatement(query);

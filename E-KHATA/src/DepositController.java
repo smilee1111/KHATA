@@ -1,6 +1,7 @@
 
 import database.mysqlconnector;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -155,25 +156,30 @@ public class DepositController extends javax.swing.JFrame {
     }//GEN-LAST:event_amountFieldActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        String amount = amountField.getText();
+ mysqlconnector mysql = new mysqlconnector();
+    Connection conn = mysql.openConnection();
+    String amount = amountField.getText();
     String method = MethodField.getText();
     Date DOW = DateField.getDate();
 
-    // Ensure the MySQL connection is established
-    mysqlconnector mysql = new mysqlconnector();
+    try {                                         
+        // Get the input values from the fields
+        String sql2 = "UPDATE signup SET balance=balance+? WHERE id=?";
+        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+        pstmt2.setBigDecimal(1, new java.math.BigDecimal(amount));
+        pstmt2.setInt(2, 1);
+        pstmt2.executeUpdate();
 
-    try (Connection conn = mysql.openConnection()) {
         // Prepare the SQL query, skipping user_id if not needed
         String sql = "INSERT INTO deposit (amount, method, date_of_deposit) VALUES (?, ?, ?)";
-        try (java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setBigDecimal(1, new java.math.BigDecimal(amount)); // Set amount
             pstmt.setString(2, method); // Set method
             pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
-
+            
             // Execute the query
             pstmt.executeUpdate();
-
+            
             // Show a success message
             JOptionPane.showMessageDialog(this, "Deposit record inserted successfully!");
         }

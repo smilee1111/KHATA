@@ -68,7 +68,9 @@ public class AdminController extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 153, 255));
 
+        jTable1.setBackground(new java.awt.Color(153, 153, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -87,6 +89,8 @@ public class AdminController extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setBackground(new java.awt.Color(153, 153, 255));
+        jButton1.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jButton1.setText("ADD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,34 +98,57 @@ public class AdminController extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(153, 153, 255));
+        jButton2.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jButton2.setText("DELETE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
+        jButton3.setBackground(new java.awt.Color(153, 153, 255));
+        jButton3.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jButton3.setText("UPDATE");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
+        Amount.setBackground(new java.awt.Color(153, 153, 255));
         Amount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AmountActionPerformed(evt);
             }
         });
 
+        ID.setBackground(new java.awt.Color(153, 153, 255));
         ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IDActionPerformed(evt);
             }
         });
 
+        Name.setBackground(new java.awt.Color(153, 153, 255));
         Name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NameActionPerformed(evt);
             }
         });
 
+        Method.setBackground(new java.awt.Color(153, 153, 255));
+
+        jLabel1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel1.setText("ID");
 
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel2.setText("Amount");
 
+        jLabel3.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel3.setText("Name");
 
+        jLabel4.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         jLabel4.setText("Method");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,7 +162,7 @@ public class AdminController extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -257,6 +284,77 @@ public class AdminController extends javax.swing.JFrame {
 
     
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+       mysqlconnector mysql = new mysqlconnector();
+        Connection conn = mysql.openConnection();
+
+         String id = ID.getText();
+        String amount = Amount.getText();
+        String name = Name.getText();
+        String method= Method.getText();
+
+    String sql = "UPDATE Admins SET ID = ?, Amount = ?, Name = ?, Method = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, id);
+            pstmt.setString(2, amount);
+            pstmt.setString(3, name);
+            pstmt.setString(4, method);
+            pstmt.executeUpdate();
+            System.out.print("successful");
+
+            dispose();
+
+                // Reinitialize and show the frame again
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AdminController().setVisible(true);
+                    }
+                });
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mysql.closeConnection(conn);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+           mysqlconnector mysql = new mysqlconnector();
+        Connection conn = mysql.openConnection();
+
+        DefaultTableModel Model = (DefaultTableModel)jTable1.getModel();
+        Model.addRow(new Object[] {ID.getText(), Amount.getText(), Name.getText(), Method.getText()});
+
+        String vehicle = ID.getText();
+
+        String sql = "DELETE from admins where ID = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, vehicle);
+            pstmt.executeUpdate();
+
+            dispose();
+
+                // Reinitialize and show the frame again
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AdminController().setVisible(true);
+                    }
+                });
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+//            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            mysql.closeConnection(conn);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

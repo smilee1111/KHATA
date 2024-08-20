@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 import java.text.DateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class WithDrawlController extends javax.swing.JFrame {
@@ -157,16 +159,20 @@ public class WithDrawlController extends javax.swing.JFrame {
     }//GEN-LAST:event_methodFieldActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-       // Get the input values from the fields
+  mysqlconnector mysql = new mysqlconnector();
+    Connection conn = mysql.openConnection();
     String amount = amountField.getText();
     String method = methodField.getText();
     Date DOW = dateField.getDate();
 
-    // Ensure the MySQL connection is established
-    mysqlconnector mysql = new mysqlconnector();
+    try {                                         
+        // Get the input values from the fields
+        String sql2 = "UPDATE signup SET balance=balance-? WHERE id=?";
+        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+        pstmt2.setBigDecimal(1, new java.math.BigDecimal(amount));
+        pstmt2.setInt(2, 1);
+        pstmt2.executeUpdate();
 
-    try (Connection conn = mysql.openConnection()) {
         // Prepare the SQL query, skipping user_id if not needed
         String sql = "INSERT INTO withdrawl (amount, method, date_of_withdrawal) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -176,7 +182,7 @@ public class WithDrawlController extends javax.swing.JFrame {
             
             // Execute the query
             pstmt.executeUpdate();
-
+            
             // Show a success message
             JOptionPane.showMessageDialog(this, "Withdrawal record inserted successfully!");
         }
