@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import Model.UserSession;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -215,18 +216,30 @@ public class LoginController extends javax.swing.JFrame {
        
       
 
-     
+            
         try (Connection conn = mysql.openConnection()) {
             String query = "SELECT * FROM signup WHERE name = ? AND password = ?";
+            String query2 = "SELECT id from signup WHERE name=?";
             try (PreparedStatement statement = conn.prepareStatement(query)) {
                 statement.setString(1, name);
                 statement.setString(2, password);
                 ResultSet resultSet = statement.executeQuery();
+                
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Login Successful!");
-                    new DashboardController().setVisible(true);
-                    this.dispose(); // Close login page
-                } else {
+                    PreparedStatement statement2 = conn.prepareStatement(query2);
+                    statement2.setString(1, name);
+                    ResultSet resultSet2 = statement2.executeQuery();
+                if (resultSet2.next()) {
+                int userId = resultSet2.getInt("id");
+                UserSession session = UserSession.getInstance();
+                session.setUserId(userId);
+                
+                JOptionPane.showMessageDialog(this, "Login Successful!");
+                new DashboardController().setVisible(true);
+                this.dispose(); // Close login page
+            } else {
+                JOptionPane.showMessageDialog(this, "User ID not found.");
+            }}else{
                     JOptionPane.showMessageDialog(this, "Invalid username or password.");
                 }
             }

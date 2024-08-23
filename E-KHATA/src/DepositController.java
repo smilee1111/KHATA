@@ -1,4 +1,5 @@
 
+import Model.UserSession;
 import database.mysqlconnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -161,7 +162,8 @@ public class DepositController extends javax.swing.JFrame {
     String amount = amountField.getText();
     String method = MethodField.getText();
     Date DOW = DateField.getDate();
-
+    UserSession session = UserSession.getInstance();
+    int currentUserId = session.getUserId();
     try {                                         
         // Get the input values from the fields
         String sql2 = "UPDATE signup SET balance=balance+? WHERE id=?";
@@ -171,12 +173,12 @@ public class DepositController extends javax.swing.JFrame {
         pstmt2.executeUpdate();
 
         // Prepare the SQL query, skipping user_id if not needed
-        String sql = "INSERT INTO deposit (amount, method, date_of_deposit) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO deposit (amount, method, date_of_deposit,user_id) VALUES (?, ?, ?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setBigDecimal(1, new java.math.BigDecimal(amount)); // Set amount
             pstmt.setString(2, method); // Set method
             pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
-            
+            pstmt.setInt(4,currentUserId);
             // Execute the query
             pstmt.executeUpdate();
             

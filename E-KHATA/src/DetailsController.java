@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 import Dao.Userdao;
+import Model.UserSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,23 +29,25 @@ public DetailsController() {
     private void loadDetailsData() {
         DefaultTableModel model = (DefaultTableModel) detailsTable.getModel();
         model.setRowCount(0); // Clear any existing rows
-
+        UserSession session = UserSession.getInstance();
+        int currentUserId = session.getUserId();
         try {
             // Connect to the database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Khata", "root", "musk@n2020#"); 
 
             // SQL query to fetch data from the details table
-            String query = "SELECT amount, date_of_transaction, method FROM details";
+            String query = "SELECT amount, date_of_transaction, method,type_of_transaction FROM details WHERE user_id=?";
             PreparedStatement pst = con.prepareStatement(query);
+            pst.setInt(1, currentUserId);
             ResultSet rs = pst.executeQuery();
-
+            
             // Iterate through the result set and add each row to the JTable
             while (rs.next()) {
                 double amount = rs.getDouble("amount");
                 String dateOfTransaction = rs.getString("date_of_transaction");
                 String method = rs.getString("method");
-
-                model.addRow(new Object[]{amount, dateOfTransaction, method});
+                String typeOfTransaction = rs.getString("type_of_transaction");
+                model.addRow(new Object[]{amount, dateOfTransaction, method,typeOfTransaction});
             }
 
             // Close the connections
@@ -88,11 +91,11 @@ public DetailsController() {
 
             },
             new String [] {
-                "Amount", "Date of Transaction", "Method"
+                "Amount", "Date of Transaction", "Method", "Type of Transaction"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Double.class, java.lang.String.class, java.lang.String.class
+                java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,11 +104,6 @@ public DetailsController() {
         });
         detailsTable.setSelectionBackground(new java.awt.Color(204, 204, 255));
         jScrollPane1.setViewportView(detailsTable);
-        if (detailsTable.getColumnModel().getColumnCount() > 0) {
-            detailsTable.getColumnModel().getColumn(0).setHeaderValue("Amount");
-            detailsTable.getColumnModel().getColumn(1).setHeaderValue("Date of Transaction");
-            detailsTable.getColumnModel().getColumn(2).setHeaderValue("Method");
-        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,9 +112,9 @@ public DetailsController() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,9 +124,9 @@ public DetailsController() {
                         .addGap(48, 48, 48)
                         .addComponent(jButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(25, 25, 25)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -1,3 +1,4 @@
+import Model.UserSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,24 +29,19 @@ public class InformationController extends javax.swing.JFrame {
      private void loadDetailsData() {
      DefaultTableModel model = (DefaultTableModel) infoTable.getModel();
 model.setRowCount(0); // Clear any existing rows
-
+UserSession session = UserSession.getInstance();
+    int currentUserId = session.getUserId();
 try {
     // Connect to the database
     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Khata", "root", "musk@n2020#"); 
 
-    // SQL query to fetch the id from the signup table
-    String query2 = "SELECT id from signup where name=?";
-    PreparedStatement pst2 = con.prepareStatement(query2);
-    pst2.setString(1,"muskan"); 
-    ResultSet rr = pst2.executeQuery();
-
-    if (rr.next()) {
-        int id = rr.getInt("id");
+  
+        
 
         // SQL query to fetch data from the details table
         String query = "SELECT name, email, DOB, balance FROM signup where id=?";
         PreparedStatement pst = con.prepareStatement(query);
-        pst.setInt(1, id);
+        pst.setInt(1, currentUserId);
         ResultSet rs = pst.executeQuery();
 
         // Clear the table model
@@ -60,7 +56,7 @@ try {
 
             model.addRow(new Object[]{name, email, date_of_birth, balance});
         }
-    }
+    
 
     // Close the connections
    

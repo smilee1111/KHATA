@@ -8,10 +8,13 @@
  * @author Aayush Subedi
  */
 
+import Model.UserSession;
 import database.mysqlconnector;
+import java.math.BigDecimal;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.text.DateFormat;
@@ -164,8 +167,20 @@ public class WithDrawlController extends javax.swing.JFrame {
     String amount = amountField.getText();
     String method = methodField.getText();
     Date DOW = dateField.getDate();
-
-    try {                                         
+    UserSession session = UserSession.getInstance();
+    int currentUserId = session.getUserId();
+    try{
+    String sql3 = "select balance from signup WHERE id=?";
+    PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+    pstmt3.setInt(1, 1);
+    ResultSet rs = pstmt3.executeQuery();
+    if(rs.next()){
+        double balance=rs.getDouble("balance");
+        double money=Double.parseDouble(amount);
+        if(money>balance){
+            JOptionPane.showMessageDialog(this, "Insufficient funds.");
+        }else{
+            try {                                         
         // Get the input values from the fields
         String sql2 = "UPDATE signup SET balance=balance-? WHERE id=?";
         PreparedStatement pstmt2 = conn.prepareStatement(sql2);
@@ -174,11 +189,12 @@ public class WithDrawlController extends javax.swing.JFrame {
         pstmt2.executeUpdate();
 
         // Prepare the SQL query, skipping user_id if not needed
-        String sql = "INSERT INTO withdrawl (amount, method, date_of_withdrawal) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO withdrawl (amount, method, date_of_withdrawal,user_id) VALUES (?, ?, ?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setBigDecimal(1, new java.math.BigDecimal(amount)); // Set amount
             pstmt.setString(2, method); // Set method
             pstmt.setDate(3, new java.sql.Date(DOW.getTime())); // Set date
+            pstmt.setInt(4, currentUserId);
             
             // Execute the query
             pstmt.executeUpdate();
@@ -190,6 +206,13 @@ public class WithDrawlController extends javax.swing.JFrame {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error inserting record: " + ex.getMessage());
     }
+        }
+    }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error inserting record: " + ex.getMessage());
+    }
+    
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
