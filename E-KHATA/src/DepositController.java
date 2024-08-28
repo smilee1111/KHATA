@@ -164,6 +164,7 @@ public class DepositController extends javax.swing.JFrame {
     Date DOW = DateField.getDate();
     UserSession session = UserSession.getInstance();
     int currentUserId = session.getUserId();
+    if(Integer.parseInt(amount)>0){
     try {                                         
         // Get the input values from the fields
         String sql2 = "UPDATE signup SET balance=balance+? WHERE id=?";
@@ -188,6 +189,9 @@ public class DepositController extends javax.swing.JFrame {
     } catch (java.sql.SQLException ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error inserting record: " + ex.getMessage());
+    }
+    }else{
+        JOptionPane.showMessageDialog(this, "you cannot deposit a negative amount.");
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 

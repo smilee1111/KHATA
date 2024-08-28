@@ -169,6 +169,7 @@ public class WithDrawlController extends javax.swing.JFrame {
     Date DOW = dateField.getDate();
     UserSession session = UserSession.getInstance();
     int currentUserId = session.getUserId();
+    if(Integer.parseInt(amount)>0){
     try{
     String sql3 = "select balance from signup WHERE id=?";
     PreparedStatement pstmt3 = conn.prepareStatement(sql3);
@@ -211,6 +212,9 @@ public class WithDrawlController extends javax.swing.JFrame {
     } catch (SQLException ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error inserting record: " + ex.getMessage());
+    }
+    }else{
+        JOptionPane.showMessageDialog(this, "you cannot withdraw a negative amount.");
     }
     
     }//GEN-LAST:event_jButton2ActionPerformed
