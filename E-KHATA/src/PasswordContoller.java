@@ -132,6 +132,7 @@ public class PasswordContoller extends javax.swing.JFrame {
 
     private void ResetPwButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetPwButtonActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_ResetPwButtonActionPerformed
 
     /**
