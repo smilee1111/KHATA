@@ -230,6 +230,8 @@ try (Connection conn = mysql.openConnection()) {
                 String sql2="UPDATE signup SET balance = balance - ? WHERE id = ?";
                 String sql3="INSERT into details(amount,date_of_transaction,method,type_of_transaction,user_id)"
                         + "VALUES(?,?,?,?,?)";
+                String sql4="INSERT into details(amount,date_of_transaction,method,type_of_transaction,user_id)"
+                     + "VALUES(?,?,?,?,?)";
                 try (java.sql.PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     pstmt.setBigDecimal(1, new java.math.BigDecimal(cash)); // Set amount
                     pstmt.setInt(2, Integer.parseInt(id2)); // Corrected index to 
@@ -237,16 +239,23 @@ try (Connection conn = mysql.openConnection()) {
                     // Execute the query
                     java.sql.PreparedStatement pstmt2 = conn.prepareStatement(sql2);
                     java.sql.PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+                    java.sql.PreparedStatement pstmt4 = conn.prepareStatement(sql4);
                     pstmt3.setInt(1,Integer.parseInt(cash));
                     pstmt3.setDate(2,new java.sql.Date(DOW.getTime()));
                     pstmt3.setString(3, method);
                     pstmt3.setString(4, "TRANSFER");
                     pstmt3.setInt(5, currentUserId);
+                    pstmt4.setInt(1,Integer.parseInt(cash));
+                    pstmt4.setDate(2,new java.sql.Date(DOW.getTime()));
+                    pstmt4.setString(3, method);
+                    pstmt4.setString(4, "RECEIVED");
+                    pstmt4.setInt(5, Integer.parseInt(id2));
                     pstmt2.setBigDecimal(1, new java.math.BigDecimal(cash)); // Set amount
                     pstmt2.setInt(2, Integer.parseInt(id));
                     pstmt.executeUpdate();
                     pstmt2.executeUpdate();
                     pstmt3.executeUpdate();
+                    pstmt4.executeUpdate();
                     // Show a success message
                     JOptionPane.showMessageDialog(this, "Transferred successfully!");
                 }

@@ -55,16 +55,16 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="DateField" max="32767" attributes="0"/>
                       <Component id="jButton2" min="-2" pref="114" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="DateField" min="-2" pref="248" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="133" max="-2" attributes="0"/>
-                      <Component id="MethodField" alignment="0" min="-2" pref="248" max="-2" attributes="0"/>
+                      <Component id="MethodField" alignment="0" pref="248" max="32767" attributes="0"/>
                       <Component id="jLabel3" alignment="0" min="-2" pref="92" max="-2" attributes="0"/>
-                      <Component id="amountField" min="-2" pref="248" max="-2" attributes="0"/>
+                      <Component id="amountField" pref="248" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="32" pref="338" max="32767" attributes="0"/>
+                  <EmptySpace pref="338" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -84,9 +84,9 @@
                   <Component id="MethodField" min="-2" pref="47" max="-2" attributes="0"/>
                   <EmptySpace pref="40" max="32767" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="34" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="DateField" min="-2" pref="46" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="DateField" min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" pref="58" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
@@ -103,8 +103,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MethodFieldActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="DateField">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -160,6 +158,8 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="DateField">
         </Component>
       </SubComponents>
     </Container>
