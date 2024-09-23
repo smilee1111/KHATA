@@ -62,6 +62,8 @@ create table Admins(
 select id from signup where name="muskan";
 -- Optional: Query the tables to verify their structure
 SELECT * FROM signup;
+select password from signup where email="muskankc2005@gmail.com";
+UPDATE signup SET password="muskan@20" WHERE email="muskankc2005@gmail.com";
 SELECT * FROM withdrawl;
 SELECT * FROM deposit;
 SELECT * FROM details;
